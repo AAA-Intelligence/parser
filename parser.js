@@ -1,5 +1,11 @@
 var fs = require('fs');
 
+var user1 = "Leon Erath"
+var user2 = "Daniel Salomon"
+var DATE_START  = 0
+var DATE_END    = 15
+var USER_START  = 17
+
 
 
 function readLines(input, func) {
@@ -7,30 +13,71 @@ function readLines(input, func) {
     var test = ""
   
     input.on('data', function(data) {
-      remaining += data;
-      var index = remaining.indexOf('\n');
-      var last  = 0;
-     
-      while (index > -1) {
-        var line = remaining.substring(last, index);
-        last = index + 1;
-        index = remaining.indexOf('\n', last);
-        var line2 = remaining.substring(last, index);
+        remaining += data;
+        var index = remaining.indexOf('\n');
+        var last  = 0;
         
-        while(parseDate(line2) == false){
-            line = line+" "+line2
+        while (index > -1) {
+            // get rid of \n from one text
+
+            var line = remaining.substring(last, index);
             last = index + 1;
             index = remaining.indexOf('\n', last);
-            line2 = remaining.substring(last, index);
+            var line2 = remaining.substring(last, index);
+            
+            while(parseDate(line2) == false){
+                line = line+" "+line2
+                last = index + 1;
+                index = remaining.indexOf('\n', last);
+                line2 = remaining.substring(last, index);
+            }
+            
+            // group texts from the same author within 2 hours
+            
+
+            line = line.replace(user1,"A")
+            line = line.replace(user2,"B")
+            line2 = line2.replace(user1,"A")
+            line2 = line2.replace(user2,"B")
+
+            var boolean = true
+            while(boolean){    
+                if(line.charAt(18)== line2.charAt(18)){
+                    console.log("First"+line);
+                    console.log("Second"+line2);
+                    
+                    var date1 = parseDate(line)
+                    var date2 = parseDate(line2)
+                    let timeDifference = Math.abs(date2.getTime() - date1.getTime());
+                    let differentHours = Math.ceil(timeDifference / (1000 * 3600));
+                    
+                    if(differentHours <= 2){
+                        line2 = line2.substring(20,line2.length)
+                        if(line.charAt(line.length-1)!= "."&&line.charAt(line.length-1)!= "?"&&line.charAt(line.length-1)!= "!"){
+                            line = line +"."
+                        }
+                        line = line + line2
+                        console.log("korregiert "+line);
+                        
+                        last = index + 1;
+                        index = remaining.indexOf('\n', last);
+                        line2 = remaining.substring(last, index);
+                        line2 = line2.replace(user1,"A")
+                        line2 = line2.replace(user2,"B")
+
+                        console.log("newline "+line2);
+                        
+                    }else{
+                        boolean = false
+                    }
+                }else{
+                    boolean = false
+                }
+            }
+            
+            // parse texts in specific format
+            test += func(line) 
         }
-       
-        
-       
-        test += func(line) 
-        
-           
-        
-      }
       
   
       remaining = remaining.substring(last);
@@ -46,7 +93,9 @@ function readLines(input, func) {
     });
   
     
-  }
+}
+
+
 function createFile(data){
     fs.writeFile("export/chat.txt", data, function(err) {
         if(err) {
@@ -77,23 +126,7 @@ Date.prototype.addHours= function(h){
     return this;
 }
 
-function func(data) {
-    var user1 = "Leon Erath"
-    var user2 = "Daniel Salomon"
 
-    data = data.substring(17,data.length)
-    data = data.replace(user1,"A")
-    data = data.replace(user2,"B")
-    data = data.replace("\n"," ")
-
-    if(data.indexOf("http") > -1 || data.indexOf("<Medien weggelassen>") > -1 ) {
-        data = ""
-    }else{
-        data = data +"\n"
-    }
-    
-    return data
-  }
 
 var input = fs.createReadStream('chat.txt');
 readLines(input, func);
