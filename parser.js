@@ -14,10 +14,22 @@ function readLines(input, func) {
       while (index > -1) {
         var line = remaining.substring(last, index);
         last = index + 1;
-        test += func(line) 
-       
-           
         index = remaining.indexOf('\n', last);
+        var line2 = remaining.substring(last, index);
+        
+        while(parseDate(line2) == false){
+            line = line+" "+line2
+            last = index + 1;
+            index = remaining.indexOf('\n', last);
+            line2 = remaining.substring(last, index);
+        }
+       
+        
+       
+        test += func(line) 
+        
+           
+        
       }
       
   
@@ -44,9 +56,28 @@ function createFile(data){
         console.log("The file was saved!");
     }); 
 }
-  
 
-  function func(data) {
+
+function parseDate(input) {
+    input = input.substring(0,15)
+    input = input.replace(",",".")
+    input = input.replace(":",".")
+    input = input.replace(" ","")
+    var parts = input.split('.');
+
+    var date = new Date("20"+parts[2], parts[1]-1, parts[0],parts[3],parts[4]).addHours(2); 
+    if(date.toString() == "Invalid Date"){
+        return false
+    }
+    return date
+}
+
+Date.prototype.addHours= function(h){
+    this.setHours(this.getHours()+h);
+    return this;
+}
+
+function func(data) {
     var user1 = "Leon Erath"
     var user2 = "Daniel Salomon"
 
