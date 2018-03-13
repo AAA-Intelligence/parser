@@ -1,14 +1,15 @@
 var fs = require('fs');
 
-var USER_1 = "Leon Erath"
-var USER_2 = "Daniel Salomon"
-var DATE_START  = 0
-var DATE_END    = 15
-var USER_START  = 17
-var TIME_DIFFERENCE = 2
+// Constants
+let USER_1 = "Leon Erath"
+let USER_2 = "Daniel Salomon"
+let DATE_START  = 0
+let DATE_END    = 15
+let USER_START  = 17
+let TIME_DIFFERENCE = 2
 
 
-
+// @parseText read .txt file and converts it to a String
 function parseText(input) {
     var remaining = '';
     
@@ -25,6 +26,10 @@ function parseText(input) {
 
 }
 
+
+// @paragraphText fixes \n so that one Text is in one line
+// additionally replaces user name with A and B
+// deletes texts with http Links or <Medien weggelassen> tags
 function paragraphTexts(data){
     
     var text = ""
@@ -57,6 +62,8 @@ function paragraphTexts(data){
     groupTexts(text)
 }
 
+// @groupTexts groups Texts from the same author
+// additionally add blank line if the conversation has a gap of TIME_DIFFERENCE
 function groupTexts(data){
   
     var groupedText = ""
@@ -82,16 +89,16 @@ function groupTexts(data){
 
         k= 0;
         while(line.charAt(18)== line2.charAt(18)){  
-                        k++
-                        line2 = line2.substring(20,line2.length)
-                        
-                        if(line.charAt(line.length-1)!= "."&&line.charAt(line.length-1)!= "?"&&line.charAt(line.length-1)!= "!"){
-                            line = line +"."
-                        }
-
-                        line = line + line2
-                        line2 = lines[i+1+k]
+            k++
+            line2 = line2.substring(20,line2.length)
             
+            if(line.charAt(line.length-1)!= "."&&line.charAt(line.length-1)!= "?"&&line.charAt(line.length-1)!= "!"){
+                line = line +"."
+            }
+
+            line = line + line2
+            line2 = lines[i+1+k]               
+
         }
         i = i +k
         groupedText = groupedText+line+"\n";
@@ -101,25 +108,29 @@ function groupTexts(data){
   
 }
 
+// @createFile creates .txt file for given input
 function createFile(data){
     fs.writeFile("export/chat.txt", data, function(err) {
         if(err) {
             return console.log(err);
         }
-
         console.log("The file was saved!");
     }); 
 }
 
-
+// @parseDate create a Date of given input
+// returns false if input is invalid
+// neccessary to calculate time diffrence between texts
 function parseDate(input) {
     input = input.substring(DATE_START,DATE_END)
     
+    // replaces characters so that the string can be splitted
     input = input.replace(",",".")
     input = input.replace(":",".")
     input = input.replace(" ","")
     var parts = input.split('.');
 
+    // because of reasons you need to add 2 hours and subtract 1 month (dont ask me why)
     var date = new Date("20"+parts[2], parts[1]-1, parts[0],parts[3],parts[4]).addHours(2); 
     if(date.toString() == "Invalid Date"){
         return false
@@ -127,13 +138,15 @@ function parseDate(input) {
     return date
 }
 
+// @addHours helper function for parseDate
 Date.prototype.addHours= function(h){
     this.setHours(this.getHours()+h);
     return this;
 }
 
 
-// reads chat.txt into input
+// reads chat_full.txt into input
+// .txt file must be in the root path
 var input = fs.createReadStream('chat_full.txt');
 
 // parses Text with given input
