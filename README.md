@@ -22,3 +22,5 @@ Put your chat.txt file into the root path of the repository
 ```
 node parser.js
 ```
+
+you should see your parsed chat in the /export folder
