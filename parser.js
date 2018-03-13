@@ -16,6 +16,11 @@ function readLines(input, func) {
         remaining += data;
         var index = remaining.indexOf('\n');
         var last  = 0;
+
+        // get rid of first line
+        var line1 = remaining.substring(last, index);
+        last = index + 1;
+        index = remaining.indexOf('\n', last);
         
         while (index > -1) {
             // get rid of \n from one text
@@ -43,9 +48,7 @@ function readLines(input, func) {
             var boolean = true
             while(boolean){    
                 if(line.charAt(18)== line2.charAt(18)){
-                    console.log("First"+line);
-                    console.log("Second"+line2);
-                    
+                  
                     var date1 = parseDate(line)
                     var date2 = parseDate(line2)
                     let timeDifference = Math.abs(date2.getTime() - date1.getTime());
@@ -57,7 +60,7 @@ function readLines(input, func) {
                             line = line +"."
                         }
                         line = line + line2
-                        console.log("korregiert "+line);
+                        
                         
                         last = index + 1;
                         index = remaining.indexOf('\n', last);
@@ -65,7 +68,7 @@ function readLines(input, func) {
                         line2 = line2.replace(user1,"A")
                         line2 = line2.replace(user2,"B")
 
-                        console.log("newline "+line2);
+                        
                         
                     }else{
                         boolean = false
@@ -75,7 +78,6 @@ function readLines(input, func) {
                 }
             }
             
-            // parse texts in specific format
             test += func(line) 
         }
       
@@ -126,7 +128,20 @@ Date.prototype.addHours= function(h){
     return this;
 }
 
+function func(data) {
 
+    data = data.substring(17,data.length)
+    data = data.replace(user1,"A")
+    data = data.replace(user2,"B")
+
+    if(data.indexOf("http") > -1 || data.indexOf("<Medien weggelassen>") > -1 ) {
+        data = ""
+    }else{
+        data = data +"\n"
+    }
+    
+    return data
+  }
 
 var input = fs.createReadStream('chat.txt');
 readLines(input, func);
