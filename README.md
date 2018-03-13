@@ -14,7 +14,17 @@ WhatsApp parser to create a chat corpus
 git clone https://github.com/AAA-Intelligence/parser
 ```
 
+## setup
+
 Put your chat.txt file into the root path of the repository
+
+Change username1 and username2 in parser.js to the specific names in the chat.
+
+```
+var user1 = "username1"
+var user2 = "username2"
+```
+
 
 ## Run
 
