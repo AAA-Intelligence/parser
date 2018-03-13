@@ -5,6 +5,7 @@ var USER_2 = "Daniel Salomon"
 var DATE_START  = 0
 var DATE_END    = 15
 var USER_START  = 17
+var TIME_DIFFERENCE = 2
 
 
 
@@ -73,7 +74,7 @@ function groupTexts(data){
         let timeDifference = Math.abs(date2.getTime() - date1.getTime());
         let differentHours = Math.ceil(timeDifference / (1000 * 3600));
             
-        if(differentHours > 2){
+        if(differentHours > TIME_DIFFERENCE){
             line = line + "\n"   
             boolean = false
         }
@@ -136,6 +137,5 @@ Date.prototype.addHours= function(h){
 var input = fs.createReadStream('chat_full.txt');
 
 // parses Text with given input
-// func is the given parsing function
 parseText(input);
 
