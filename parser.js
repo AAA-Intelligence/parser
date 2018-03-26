@@ -6,7 +6,7 @@ let USER_2 = "Daniel Salomon"
 let DATE_START  = 0
 let DATE_END    = 15
 let USER_START  = 17
-let TIME_DIFFERENCE = 2
+let TIME_DIFFERENCE = 1000
 
 
 // @parseText read .txt file and converts it to a String
@@ -54,12 +54,13 @@ function paragraphTexts(data){
         }
         line = line.replace(USER_1,"A")
         line = line.replace(USER_2,"B")
-
+       
         i = i+k
         text += line 
 
     }
     groupTexts(text)
+  
 }
 
 // @groupTexts groups Texts from the same author
@@ -101,11 +102,26 @@ function groupTexts(data){
 
         }
         i = i +k
+      
         groupedText = groupedText+line+"\n";
-        console.log(line);   
     }
-    createFile(groupedText)
+    
   
+    
+    formatting(groupedText)
+}
+
+
+function formatting(data){
+    var lines = data.split('\n');
+    var formattedText = ""
+    for(var i = 0;i < lines.length-1;i++){
+        var line = lines[i]
+        line = line.substring(DATE_END+6,line.length)
+        formattedText = formattedText + line +"\n";
+        
+    }
+    createFile(formattedText)
 }
 
 // @createFile creates .txt file for given input
@@ -147,7 +163,7 @@ Date.prototype.addHours= function(h){
 
 // reads chat_full.txt into input
 // .txt file must be in the root path
-var input = fs.createReadStream('chat_full.txt');
+var input = fs.createReadStream('text.txt');
 
 // parses Text with given input
 parseText(input);
