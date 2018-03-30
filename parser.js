@@ -6,7 +6,6 @@ let USER_2 = "Daniel Salomon"
 let DATE_START  = 0
 let DATE_END    = 15
 let USER_START  = 17
-let TIME_DIFFERENCE = 1000
 
 
 // @parseText read .txt file and converts it to a String
@@ -31,7 +30,6 @@ function parseText(input) {
 // additionally replaces user name with A and B
 // deletes texts with http Links or <Medien weggelassen> tags
 function paragraphTexts(data){
-    
     var text = ""
     
     var lines = data.split('\n');
@@ -49,11 +47,20 @@ function paragraphTexts(data){
             line2 = lines[i+1+k]
         }
         line = line +"\n"
-        if(line.indexOf("http") > -1 || line.indexOf("<Medien weggelassen>") > -1 ) {
+
+        var regex = /<.+ [a-zA-Z]+>/
+        var result = line.match(regex);   
+
+        if(line.indexOf("http") > -1 || line.match(regex) ) {
             line = ""
+        }else{
+
         }
+
+        line = line.replace("\n\n","\n")
         line = line.replace(USER_1,"A")
         line = line.replace(USER_2,"B")
+        
        
         i = i+k
         text += line 
@@ -75,20 +82,10 @@ function groupTexts(data){
         var line = lines[i]
         var line2 = lines[i+1]
        
-       
-        var date1 = parseDate(line)
-        var date2 = parseDate(line2)
-       
-        let timeDifference = Math.abs(date2.getTime() - date1.getTime());
-        let differentHours = Math.ceil(timeDifference / (1000 * 3600));
-            
-        if(differentHours > TIME_DIFFERENCE){
-            line = line + "\n"   
-            boolean = false
-        }
-       
 
         k= 0;
+      
+        
         while(line.charAt(18)== line2.charAt(18)){  
             k++
             line2 = line2.substring(20,line2.length)
@@ -102,6 +99,8 @@ function groupTexts(data){
 
         }
         i = i +k
+
+      
       
         groupedText = groupedText+line+"\n";
     }
@@ -163,7 +162,7 @@ Date.prototype.addHours= function(h){
 
 // reads chat_full.txt into input
 // .txt file must be in the root path
-var input = fs.createReadStream('text.txt');
+var input = fs.createReadStream('chat.txt');
 
 // parses Text with given input
 parseText(input);
