@@ -4,33 +4,42 @@ WhatsApp parser to create a chat corpus
 # preconditions
 - git installed
 - node installed
+- yarn installed
+- python installed
 
 
 # how to run
 ## Installation
-#### macOS / linux
 
-```
+Clone repository:
+
+```sh
 git clone https://github.com/AAA-Intelligence/parser
 ```
 
-## setup
+Install dependencies:
+
+```sh
+yarn
+pip install -r requirements.txt
+```
+
+## Setup
 
 Put your chat.txt file into the root path of the repository
 
-Change username1 and username2 in parser.js to the specific names in the chat.
-
-```
-var user1 = "username1"
-var user2 = "username2"
-```
-
-
 ## Run
 
-#### macOS / linux
-```
-node parser.js
+#### macOS / Linux
+
+```sh
+./parse.sh "Name of first person" "Name of second person"
 ```
 
-you should see your parsed chat in the /export folder
+#### Windows
+
+```powershell
+.\parse.ps1 "Name of first person" "Name of second person"
+```
+
+You should see your parsed chat in the /export folder and the generated chat data in /chat-data.
