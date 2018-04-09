@@ -39,7 +39,7 @@ function paragraphTexts(data) {
     var line = lines[i];
     var line2 = lines[i + 1];
 
-    var k = 0;
+    let k = 0;
     while (parseDate(line2) == false && i + k + 1 < lines.length - 1) {
       k++;
       line = line + " " + line2;
@@ -56,8 +56,8 @@ function paragraphTexts(data) {
     }
 
     line = line.replace("\n\n", "\n");
-    line = line.replace(USER_1, "A");
-    line = line.replace(USER_2, "B");
+    line = line.replace(' - ' + USER_1 + ':', " - A:");
+    line = line.replace(' - ' + USER_2 + ':', " - B:");
 
     i = i + k;
     text += line;
@@ -75,11 +75,11 @@ function groupTexts(data) {
     var line = lines[i];
     var line2 = lines[i + 1];
 
-    var k = 0;
+    let k = 0;
 
-    while (line.charAt(18) == line2.charAt(18)) {
+    while (line.charAt(USER_START - 1) === line2.charAt(USER_START - 1)) {
       k++;
-      line2 = line2.substring(20, line2.length);
+      line2 = line2.substring(USER_START + 2, line2.length);
 
       if (
         line.charAt(line.length - 1) != "." &&
