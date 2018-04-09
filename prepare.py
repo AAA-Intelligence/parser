@@ -3,6 +3,9 @@ from os import path
 import nltk
 import emoji
 
+print('Downloading PUNKT model...')
+nltk.download('punkt')
+
 print('Normalizing and splitting data...')
 
 color_emojis = [
