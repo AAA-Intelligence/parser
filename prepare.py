@@ -4,6 +4,8 @@ import nltk
 
 nltk.download('punkt', quiet=True)
 
+print('Normalizing and splitting data...')
+
 def normalize(text):
     return ' '.join(nltk.word_tokenize(text, language='german'))
 
