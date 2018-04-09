@@ -27,7 +27,7 @@ def normalize(text):
 
 
 def write_data(data, name):
-    with open(path.join('export', name + '.txt'), 'w', encoding='utf-8') as f:
+    with open(path.join('chat-data', name + '.txt'), 'w', encoding='utf-8') as f:
         f.write('\n'.join(data))
 
 
