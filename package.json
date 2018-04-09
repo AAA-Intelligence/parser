@@ -1,0 +1,11 @@
+{
+  "name": "parser",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:AAA-Intelligence/parser.git",
+  "author": "Niklas Korz <korz.niklask@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "moment": "^2.22.0"
+  }
+}
