@@ -8,7 +8,7 @@ let USER_1 = process.argv[2];
 let USER_2 = process.argv[3];
 let DATE_START = 0;
 let DATE_END = 18;
-let USER_START = 22;
+let USER_START = 21;
 
 console.log("User 1: ", USER_1);
 console.log("User 2: ", USER_2);
@@ -77,7 +77,7 @@ function groupTexts(data) {
 
     let k = 0;
 
-    while (line.charAt(USER_START - 1) === line2.charAt(USER_START - 1)) {
+    while (line.charAt(USER_START) === line2.charAt(USER_START)) {
       k++;
       line2 = line2.substring(USER_START + 2, line2.length);
 
