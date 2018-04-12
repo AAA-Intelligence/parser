@@ -35,11 +35,12 @@ src_train = []
 tgt_train = []
 
 with open('export/chat.txt', 'r', encoding='utf-8') as f:
-    for i, line in enumerate(f):
-        if i % 2 == 0:
-            src_train.append(normalize(line))
-        else:
-            tgt_train.append(normalize(line))
+    previous_line = next(f)
+    for line in f:
+        normalized_line = normalize(line)
+        src_train.append(previous_line)
+        tgt_train.append(normalized_line)
+        previous_line = normalized_line
 
 i_max = len(src_train)
 src_val = []
