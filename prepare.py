@@ -35,7 +35,7 @@ src_train = []
 tgt_train = []
 
 with open('export/chat.txt', 'r', encoding='utf-8') as f:
-    previous_line = next(f)
+    previous_line = normalize(next(f))
     for line in f:
         normalized_line = normalize(line)
         src_train.append(previous_line)
