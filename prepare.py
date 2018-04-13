@@ -47,7 +47,7 @@ src_val = []
 tgt_val = []
 
 for _ in range(math.floor(i_max * 0.1)):
-    i = random.randint(0, i_max)
+    i = random.randint(0, i_max - 1)
     src_val.append(src_train[i])
     del src_train[i]
     tgt_val.append(tgt_train[i])
