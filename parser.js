@@ -97,7 +97,6 @@ function groupTexts(data) {
       var line2 = lines[i + 1];
 
       let k = 0;
-      console.log(line2);
       
       while (line.charAt(USER_START) === line2.charAt(USER_START)) {
         k++;
