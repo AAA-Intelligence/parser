@@ -64,8 +64,8 @@ function paragraphTexts(data) {
     
 
     line = line + "\n";
-
-    var regex = /<.+ [a-zA-Z]+>/;
+    
+    var regex = /‎Die Sicherheitsnummer von .+ hat sich geändert.|Nachrichten in diesem Chat sowie Anrufe sind jetzt mit Ende-zu-Ende-Verschlüsselung geschützt|<.+ [a-zA-Z]+>/;
     var result = line.match(regex);
 
     if (line.indexOf("http") > -1 || line.match(regex)) {
