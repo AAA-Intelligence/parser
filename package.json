@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@github.com:AAA-Intelligence/parser.git",
-  "author": "Niklas Korz <korz.niklask@gmail.com>",
+  "author": "Niklas Korz <korz.niklask@gmail.com>, Leon Erath <leon-erath@hotmail.de>",
   "license": "MIT",
   "dependencies": {
     "moment": "^2.22.0"
