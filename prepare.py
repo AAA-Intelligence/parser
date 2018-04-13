@@ -38,7 +38,7 @@ with open('export/chat.txt', 'r', encoding='utf-8') as f:
     previous_line = normalize(next(f))
     for line in f:
         normalized_line = normalize(line)
-        src_train.append(previous_line.lower())
+        src_train.append(previous_line.casefold())
         tgt_train.append(normalized_line)
         previous_line = normalized_line
 
