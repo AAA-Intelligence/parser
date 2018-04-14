@@ -19,11 +19,21 @@ color_emojis = [
 
 
 def normalize_emojis(text):
-    return ''.join([c if c not in emoji.UNICODE_EMOJI or c in color_emojis else ' ' + c for c in text]).replace('  ', ' ')
+    return ''.join([c if c not in emoji.UNICODE_EMOJI or c in color_emojis else ' ' + c for c in text])
+
+
+def normalize_characters(text):
+    return (text
+            .replace('^^', ' ^^ ')
+            .replace('„', '"')
+            .replace('“', '"')
+            .replace('..', ' .. ')
+            .replace('*', ' * ')
+            .replace('  ', ' '))
 
 
 def normalize(text):
-    return ' '.join(nltk.word_tokenize(normalize_emojis(text), language='german'))
+    return ' '.join(nltk.word_tokenize(normalize_characters(normalize_emojis(text)), language='german'))
 
 
 def write_data(data, name):
