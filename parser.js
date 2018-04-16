@@ -65,8 +65,7 @@ function paragraphTexts(data) {
 
     line = line + "\n";
     
-    // TODO @Daniel Scholz add Englisch Support
-    var regex = /‎Die Sicherheitsnummer von .+ hat sich geändert.|Nachrichten in diesem Chat sowie Anrufe sind jetzt mit Ende-zu-Ende-Verschlüsselung geschützt|<.+ [a-zA-Z]+>/;
+    var regex = /‎Messages to this chat and calls are now secured with end-to-end encryption.|‎Die Sicherheitsnummer von .+ hat sich geändert.|Nachrichten in diesem Chat sowie Anrufe sind jetzt mit Ende-zu-Ende-Verschlüsselung geschützt|<.+ [a-zA-Z]+>/;
     var result = line.match(regex);
 
     if (line.indexOf("http") > -1 || line.match(regex)) {
