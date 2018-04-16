@@ -94,27 +94,31 @@ function groupTexts(data) {
     var line = lines[i];
 
     if (i + 1 < lines.length) {
-      var line2 = lines[i + 1];
+      if(i == lines.length -2 && lines[i]==""){
+        
+      }else{
+        var line2 = lines[i + 1];
+        let k = 0;
+        
+        while (line.charAt(USER_START) === line2.charAt(USER_START)) {
+          k++;
+          line2 = line2.substring(USER_START + 2, line2.length);
 
-      let k = 0;
-      
-      while (line.charAt(USER_START) === line2.charAt(USER_START)) {
-        k++;
-        line2 = line2.substring(USER_START + 2, line2.length);
+          if (
+            line.charAt(line.length - 1) != "." &&
+            line.charAt(line.length - 1) != "?" &&
+            line.charAt(line.length - 1) != "!"
+          ) {
+            line = line + ".";
+          }
 
-        if (
-          line.charAt(line.length - 1) != "." &&
-          line.charAt(line.length - 1) != "?" &&
-          line.charAt(line.length - 1) != "!"
-        ) {
-          line = line + ".";
+          line = line + line2;
+
+          line2 = lines[i + 1 + k];
         }
-
-        line = line + line2;
-
-        line2 = lines[i + 1 + k];
+        
+        i = i + k;
       }
-      i = i + k;
     }
   
 
