@@ -8,17 +8,29 @@ let USER_1 = process.argv[2];
 let USER_2 = process.argv[3];
 let OS = process.argv[4];
 
+
+// no specified OS means Android
 var DATE_START = 0;
 var DATE_END = 18;
 var USER_START = 21;
 var PARSE_CONSTANT = 6
 
+// OS => iOS Exports
 if (OS == 1) {
   DATE_START = 1;
   DATE_END = 19;
   USER_START = 21;
-  PARSE_CONSTANT = 4
+  PARSE_CONSTANT = 5
 }
+
+// OS => Toby Wymer strange export format
+if (OS == 2) {
+  DATE_START = 0;
+  DATE_END = 18;
+  USER_START = 20;
+  PARSE_CONSTANT = 4;
+}
+
 
 console.log("User 1: ", USER_1);
 console.log("User 2: ", USER_2);
@@ -65,7 +77,7 @@ function paragraphTexts(data) {
 
     line = line + "\n";
     
-    var regex = /‎Messages to this chat and calls are now secured with end-to-end encryption.|‎Die Sicherheitsnummer von .+ hat sich geändert.|Nachrichten in diesem Chat sowie Anrufe sind jetzt mit Ende-zu-Ende-Verschlüsselung geschützt|<.+ [a-zA-Z]+>/;
+    var regex = /‎ Messages to this chat and calls are now secured with end-to-end encryption. Tap for more info.|Messages to this chat and calls are now secured with end-to-end encryption.|‎Die Sicherheitsnummer von .+ hat sich geändert.|Nachrichten in diesem Chat sowie Anrufe sind jetzt mit Ende-zu-Ende-Verschlüsselung geschützt|<.+ [a-zA-Z]+>/;
     var result = line.match(regex);
 
     if (line.indexOf("http") > -1 || line.match(regex)) {
@@ -76,11 +88,14 @@ function paragraphTexts(data) {
     line = line.replace("\n\n", "\n");
     line = line.replace(USER_1, "A");
     line = line.replace(USER_2, "B");
-
+   
+    
     i = i + k;
     text += line;
   }
 
+  
+  
   groupTexts(text);
 }
 
@@ -98,19 +113,22 @@ function groupTexts(data) {
         
       }else{
         var line2 = lines[i + 1];
-        let k = 0;
+        let k = 0;  
+        
         
         while (line.charAt(USER_START) === line2.charAt(USER_START)) {
+          
+          
           k++;
           line2 = line2.substring(USER_START + 2, line2.length);
-
-          if (
-            line.charAt(line.length - 1) != "." &&
-            line.charAt(line.length - 1) != "?" &&
-            line.charAt(line.length - 1) != "!"
-          ) {
-            line = line + ".";
-          }
+       
+          // if (
+          //   line.charAt(line.length - 1) != "." &&
+          //   line.charAt(line.length - 1) != "?" &&
+          //   line.charAt(line.length - 1) != "!"
+          // ) {
+          //   line = line + ".";
+          // }
 
           line = line + line2;
 
@@ -125,14 +143,18 @@ function groupTexts(data) {
     groupedText = groupedText + line + "\n";
   }
   
+  
   formatting(groupedText);
 }
 
 function formatting(data) {
   var lines = data.split("\n");
   var formattedText = "";
+  
+  
   for (var i = 0; i < lines.length - 1; i++) {
     var line = lines[i];
+    
     line = line.substring(DATE_END + PARSE_CONSTANT, line.length);
     formattedText = formattedText + line + "\n";
   }
@@ -159,10 +181,16 @@ function parseDate(inputText) {
   if (OS != 1) {
     input = input.replace(" um ", ", ");
   }
-  // because of reasons you need to add 2 hours and subtract 1 month (dont ask me why)
-  const date = moment(input, "DD.MM.YY, hh:mm").toDate();
+  var date;
+  if(OS == 2){
+    date = moment(input, "DD/MM/YY, hh:mm").toDate();
+  }else{
+    date = moment(input, "DDMM.YY, hh:mm").toDate();
+  }
+  
 
-  if (date.toString() == "Invalid Date") {
+
+  if (date.toString() == "Invalid Date") {    
     return false;
   }
   return date;
@@ -170,7 +198,7 @@ function parseDate(inputText) {
 
 // reads chat_full.txt into input
 // .txt file must be in the root path
-var input = fs.createReadStream("chat.txt");
+var input = fs.createReadStream("test ios.txt");
 
 // parses Text with given input
 parseText(input);
